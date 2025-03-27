@@ -6,10 +6,15 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/api': {
-        target: 'https://m-catena-app.vercel.app',
+      "/api": {
+        target: "https://m-catena-app.vercel.app",
         changeOrigin: true,
         secure: false,
+        ws: true, // ✅ Enable WebSockets (optional)
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Credentials": "true", // ✅ Allow credentials
+        },
       },
     },
   },

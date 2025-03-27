@@ -2,6 +2,7 @@ import express from "express";
 import User from "../models/User.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs"
+
 import { ROLES, USER_TYPES,  STATUS, GENDER, DESIGNATIONS } from "../constants/enums.js";
 
 export const login = async (req, res) => {
@@ -42,6 +43,9 @@ export const login = async (req, res) => {
 
 export const getMe = async (req, res) => {
   try {
+    res.setHeader("Access-Control-Allow-Credentials", "true");
+    res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173"); // ✅ Set the exact frontend origin
+
     const user = await User.findById(req.user.id).select("firstName lastNmae email role profilePic createdAt"); // Exclude password
     if (!user) return res.status(404).json({ message: "User not found" });
 

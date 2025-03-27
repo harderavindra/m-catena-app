@@ -5,19 +5,24 @@ import dotenv from "dotenv";
 
 import authRoutes from './routes/auth.js'
 import jobRoutes from './routes/jobRoutes.js'
+import cookieParser from "cookie-parser"; // If using JWT with cookies
 
 dotenv.config();
 
 const app = express(); 
-app.use(cors({
-  origin: "https://m-catena-app-frontend.vercel.app",
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"]
-}));
+app.use(
+  cors({
+    origin: "http://localhost:5173", // ✅ Set exact frontend origin
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true, // ✅ Allow cookies & credentials
+  })
+);
 
 
 app.use(express.json());
 
+app.use(cookieParser()); 
 
 mongoose
   .connect(process.env.MONGO_URI)
