@@ -26,7 +26,7 @@ app.use("/api/jobs", jobRoutes);
 
 
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to the backend2!" });
+  res.json({ message: "Welcome to the backend 3!" });
 });
 
 app.get("/users", (req, res) => {
