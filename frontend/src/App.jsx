@@ -5,9 +5,11 @@ function App() {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    axios.get("http://localhost:4000/")
+    const API_URL = import.meta.env.VITE_BACKEND_URL; // Use env variable
+
+    axios.get(API_URL)
       .then(res => setMessage(res.data))
-      .catch(err => console.error(err));
+      .catch(err => console.error("Error fetching data:", err));
   }, []);
 
   return <h1>{message || "Loading..."}</h1>;
