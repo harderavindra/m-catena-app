@@ -1,59 +1,40 @@
 import express from "express";
-import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-
-import authRoutes from './routes/auth.js'
-import jobRoutes from './routes/jobRoutes.js'
-import cookieParser from "cookie-parser"; // If using JWT with cookies
+import cors from "cors";
+import cookieParser from "cookie-parser";
+import authRoutes from "./routes/auth.js";
+import userRoutes from "./routes/user.js";
 
 dotenv.config();
+const app = express();
 
-const app = express(); 
+// ✅ CORS Configuration for Vercel
 app.use(
   cors({
-    origin: "http://localhost:5173", // ✅ Set exact frontend origin
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true, // ✅ Allow cookies & credentials
+    origin: (origin, callback) => {
+      const allowedOrigins = [process.env.FRONTEND_URL];
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("CORS not allowed"));
+      }
+    },
+    credentials: true,
   })
 );
-
-
+console.log(process.env.FRONTEND_URL)
 app.use(express.json());
+app.use(cookieParser());
 
-app.use(cookieParser()); 
+app.use("/api/auth", authRoutes);
+app.use("/api/user", userRoutes); // Protected Routes
+
+const PORT = process.env.PORT || 4000;
 
 mongoose
   .connect(process.env.MONGO_URI)
-  .then(() => console.log("MongoDB Connected"))
-  .catch((err) => console.error("MongoDB Connection Error:", err));  
-
-app.use("/api/auth", authRoutes);
-app.use("/api/jobs", jobRoutes);
-
-
-app.get("/", (req, res) => {
-  res.json({ message: "Welcome to the backend 3!" });
-});
-
-app.get("/users", (req, res) => {
-  const users = [
-    { id: 1, name: "Alice" },
-    { id: 2, name: "Bob" },
-  ];
-  res.json(users);
-});
-
-app.post("/users", (req, res) => {
-  const { name } = req.body;
-  if (!name) return res.status(400).json({ error: "Name is required" });
-
-  const newUser = { id: Date.now(), name };
-  res.status(201).json({ message: "User added successfully", user: newUser });
-});
-
-const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+  .then(() => {
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+  })
+  .catch((err) => console.error("DB Connection Error:", err));

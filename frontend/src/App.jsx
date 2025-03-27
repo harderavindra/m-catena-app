@@ -1,24 +1,17 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
-import JobsPage from "./pages/JobsPage";
+import { AuthProvider } from "./context/AuthContext";
 import LoginPage from "./pages/LoginPage";
-import { AuthProvider } from "./contexts/AuthContext";
+import DashboardPage from "./pages/DashboardPage";
 
 function App() {
-
-
-
-
-  return ( 
+  return (
     <AuthProvider>
-
-    <Router>
-      <Routes>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/jobs" element={<JobsPage />} />
-        <Route path="/" element={<JobsPage />} />
-      </Routes>
-    </Router>
+      <Router>
+        <Routes>
+          <Route path="/" element={<LoginPage />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
+        </Routes>
+      </Router>
     </AuthProvider>
   );
 }
