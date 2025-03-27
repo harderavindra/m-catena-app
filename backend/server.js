@@ -1,9 +1,24 @@
 import express from "express";
 import cors from "cors";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
 
-const app = express();
+import jobRoutes from './routes/jobRoutes.js'
+
+dotenv.config();
+
+const app = express(); 
 app.use(cors());
 app.use(express.json());
+
+
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => console.log("MongoDB Connected"))
+  .catch((err) => console.error("MongoDB Connection Error:", err));  
+
+app.use("/api/jobs", jobRoutes);
+
 
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to the backend2!" });
