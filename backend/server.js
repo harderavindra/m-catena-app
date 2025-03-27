@@ -3,16 +3,18 @@ import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 
+import authRoutes from './routes/auth.js'
 import jobRoutes from './routes/jobRoutes.js'
 
 dotenv.config();
 
 const app = express(); 
 app.use(cors({
-  origin: "https://m-catena-app-frontend.vercel.app", // Allow frontend domain
-  methods: "GET,POST,PUT,DELETE",
-  allowedHeaders: "Content-Type,Authorization"
+  origin: "https://m-catena-app-frontend.vercel.app",
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
 }));
+
 
 app.use(express.json());
 
@@ -22,6 +24,7 @@ mongoose
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.error("MongoDB Connection Error:", err));  
 
+app.use("/api/auth", authRoutes);
 app.use("/api/jobs", jobRoutes);
 
 
