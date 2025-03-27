@@ -6,7 +6,7 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to the backend!" });
+  res.json({ message: "Welcome to the backend2!" });
 });
 
 app.get("/users", (req, res) => {
