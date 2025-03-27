@@ -8,7 +8,12 @@ import jobRoutes from './routes/jobRoutes.js'
 dotenv.config();
 
 const app = express(); 
-app.use(cors({ origin: "https://m-catena-app-frontend.vercel.app" }));
+app.use(cors({
+  origin: "https://m-catena-app-frontend.vercel.app", // Allow frontend domain
+  methods: "GET,POST,PUT,DELETE",
+  allowedHeaders: "Content-Type,Authorization"
+}));
+
 app.use(express.json());
 
 
