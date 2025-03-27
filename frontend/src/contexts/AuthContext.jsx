@@ -13,6 +13,7 @@ export const AuthProvider = ({ children }) => {
   // Check authentication status on app load
   useEffect(() => {
     const checkAuth = async () => {
+      console.log(API_BASE_URL, 'API_BASE_URL')
       try {
         const response = await axios.get(`${API_BASE_URL}/api/auth/me`, { withCredentials: true });
         console.log("Auth Check", response.data.user)

@@ -11,7 +11,7 @@ router.post("/login", login);
 
 router.get("/users", getAllUsers);
 
-router.get("/me", authMiddleware, getMe)
+router.get("/me", getMe)
 
 
 
