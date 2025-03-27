@@ -6,7 +6,11 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      "/api": "http://localhost:4000", // Backend API Proxy
+      '/api': {
+        target: 'https://m-catena-app.vercel.app',
+        changeOrigin: true,
+        secure: false,
+      },
     },
   },
 })
