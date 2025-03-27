@@ -10,7 +10,6 @@ function App() {
 
 
   return (
-    <AuthProvider>
 
     <Router>
       <Routes>
@@ -19,7 +18,6 @@ function App() {
         <Route path="/" element={<JobsPage />} />
       </Routes>
     </Router>
-    </AuthProvider>
   );
 }
 
