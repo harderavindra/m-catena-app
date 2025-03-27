@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import { useAuth } from "../contexts/AuthContext";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL; // Use environment variable
 
@@ -7,6 +8,7 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const { login, user } = useAuth();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -16,7 +18,7 @@ const LoginPage = () => {
     }
 
     try {
-      const response = await axios.post(`${API_URL}/api/auth/login`, { email, password });
+        await login(email, password);
       console.log("Login Successful:", response.data);
       setMessage("Login successful!");
       // Store token if required (e.g., localStorage.setItem("token", response.data.token));
