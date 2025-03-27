@@ -43,7 +43,7 @@ export const login = async (req, res) => {
 
 export const getMe = async (req, res) => {
   try {
-    res.setHeader("Access-Control-Allow-Credentials", "true");
+    res.setHeader("Access-Control-Allow-Credentials", "true"); 
     res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173"); // ✅ Set the exact frontend origin
 
     const user = await User.findById(req.user.id).select("firstName lastNmae email role profilePic createdAt"); // Exclude password
